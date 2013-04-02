@@ -1,0 +1,7 @@
+# Compiler speak.
+librom.a
+*.o
+
+# Swap files.
+*.swp
+
