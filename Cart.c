@@ -51,7 +51,8 @@ static void InitCart(struct Cart *, FILE *, const uint8_t *, size_t);
 int
 CartRead(void *_controller, uint32_t address, void *_data) {
 	struct Cart *cart = ((struct ROMController*) _controller)->cart;
-	uint32_t *data = (uint32_t*) _data, word;
+	uint32_t *data = (uint32_t*) _data;
+  uint32_t word;
 
   address = address - ROM_CART_BASE_ADDRESS;
 
