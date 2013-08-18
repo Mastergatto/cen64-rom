@@ -11,6 +11,7 @@
 #include "Address.h"
 #include "Cart.h"
 #include "Controller.h"
+#include "Externs.h"
 
 #ifdef __cplusplus
 #include <cstddef>
@@ -190,6 +191,7 @@ GetCICSeed(const struct ROMController *controller) {
 
     case CRC_CIC_NUS_6102:
       debug("Detected: CIC-NUS-6102.");
+      BusWriteWord(controller->bus, 0x318, 0x800000);
       return (uint32_t) SEED_CIC_NUS_6102;
 
     case CRC_CIC_NUS_6103:
@@ -198,6 +200,7 @@ GetCICSeed(const struct ROMController *controller) {
 
     case CRC_CIC_NUS_6105:
       debug("Detected: CIC-NUS-6105.");
+      BusWriteWord(controller->bus, 0x3F0, 0x800000);
       return (uint32_t) SEED_CIC_NUS_6105;
 
     case CRC_CIC_NUS_6106:

@@ -15,6 +15,7 @@ struct BusController;
 
 void BusClearRCPInterrupt(struct BusController *, unsigned);
 void BusRaiseRCPInterrupt(struct BusController *, unsigned);
+void BusWriteWord(const struct BusController *, uint32_t, uint32_t);
 
 #endif
 
