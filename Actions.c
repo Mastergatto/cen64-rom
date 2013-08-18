@@ -36,18 +36,24 @@ void PIHandleDMARead(struct ROMController *controller) {
   if (length & 7)
     length = (length + 7) & ~7;
 
-  if (source + length > controller->cart->size)
-    length = controller->cart->size - source;
+  if (source >= 0x8000000 && source < 0x08010000) {
+    debug("DMA | Request: Read from SRAM.");
+  }
 
-  debug("DMA | Request: Read from cart.");
-  debugarg("DMA | DEST   : [0x%.8x].", dest);
-  debugarg("DMA | SOURCE : [0x%.8x].", source);
-  debugarg("DMA | LENGTH : [0x%.8x].", length);
+  else {
+    if (source + length > controller->cart->size)
+      length = controller->cart->size - source;
 
-  DMAToDRAM(controller->bus, dest, controller->cart->rom + source, length);
+    debug("DMA | Request: Read from cart.");
+    debugarg("DMA | DEST   : [0x%.8x].", dest);
+    debugarg("DMA | SOURCE : [0x%.8x].", source);
+    debugarg("DMA | LENGTH : [0x%.8x].", length);
+
+    DMAToDRAM(controller->bus, dest, controller->cart->rom + source, length);
+  }
+
   controller->regs[PI_DRAM_ADDR_REG] += length;
   controller->regs[PI_CART_ADDR_REG] += length;
-
   BusRaiseRCPInterrupt(controller->bus, MI_INTR_PI);
 }
 
