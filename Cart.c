@@ -45,6 +45,7 @@ enum CICSEED {
 
 static uint32_t CRC32(const uint8_t *, size_t);
 static void InitCart(struct Cart *, FILE *, const uint8_t *, size_t);
+static int SafeFRead(uint8_t *memory, size_t size, FILE *file);
 
 /* ============================================================================
  *  CartRead: Read from Cart.
@@ -143,7 +144,7 @@ CreateCart(const char *filename) {
   romImage = (uint8_t*) cart + sizeof(*cart);
 
   rewind(romFile);
-  if (fread(romImage, romSize, 1, romFile) != 1) {
+  if (!SafeFRead(romImage, romSize, romFile)) {
 #else
   int fd = fileno(romFile);
 
@@ -234,5 +235,19 @@ InitCart(struct Cart *cart, FILE *file, const uint8_t *rom, size_t size) {
   cart->file = file;
   cart->rom = rom;
   cart->size = size;
+}
+
+/* ============================================================================
+ *  SafeFRead: Check return values from fread, read in 1 byte chunks.
+ * ========================================================================= */
+static int SafeFRead(uint8_t *memory, size_t size, FILE *file) {
+  size_t i, read = 0;
+
+  for (i = 0; i < size; i += read) {
+    if ((read = fread(memory + i, size - i, 1, file)) == 0)
+      return 1;
+  }
+
+  return 0;
 }
 
