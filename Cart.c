@@ -61,6 +61,11 @@ CartRead(void *_controller, uint32_t address, void *_data) {
 
   address = address - ROM_CART_BASE_ADDRESS;
 
+  if (address > cart->size) {
+    debugarg("CartRead: Read beyond cart boundary [0x%.8x]", address);
+    return 0;
+  }
+
   memcpy(&word, cart->rom + address, sizeof(word));
   *data = ByteOrderSwap32(word);
 
