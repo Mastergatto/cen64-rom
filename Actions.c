@@ -46,6 +46,7 @@ void PIHandleDMARead(struct ROMController *controller) {
     if (source + length > controller->cart->size)
     {
       debug("DMA | Source is not in cart bounds; ignoring");
+      // TODO: actually emulate this behavior
     }
     else {
 
