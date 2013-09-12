@@ -41,15 +41,21 @@ void PIHandleDMARead(struct ROMController *controller) {
   }
 
   else {
-    if (source + length > controller->cart->size)
-      length = controller->cart->size - source;
-
     debug("DMA | Request: Read from cart.");
-    debugarg("DMA | DEST   : [0x%.8x].", dest);
-    debugarg("DMA | SOURCE : [0x%.8x].", source);
-    debugarg("DMA | LENGTH : [0x%.8x].", length);
+    
+    if (source + length > controller->cart->size)
+    {
+      debug("DMA | Source is not in cart bounds; ignoring");
+      // TODO: actually emulate this behavior
+    }
+    else {
 
-    DMAToDRAM(controller->bus, dest, controller->cart->rom + source, length);
+        debugarg("DMA | DEST   : [0x%.8x].", dest);
+        debugarg("DMA | SOURCE : [0x%.8x].", source);
+        debugarg("DMA | LENGTH : [0x%.8x].", length);
+
+        DMAToDRAM(controller->bus, dest, controller->cart->rom + source, length);
+    }
   }
 
   controller->regs[PI_DRAM_ADDR_REG] += length;
