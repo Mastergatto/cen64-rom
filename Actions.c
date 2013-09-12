@@ -36,17 +36,16 @@ void PIHandleDMARead(struct ROMController *controller) {
   if (length & 7)
     length = (length + 7) & ~7;
 
-  if (source >= 0x8000000 && source < 0x08010000) {
+  if (source >= 0x8000000 && source <= 0x08010000) {
     debug("DMA | Request: Read from SRAM.");
   }
 
   else {
     debug("DMA | Request: Read from cart.");
     
-    if (source + length > controller->cart->size)
-    {
+    if (source + length > controller->cart->size) {
       debug("DMA | Source is not in cart bounds; ignoring");
-      // TODO: actually emulate this behavior
+      /* TODO: Actually emulate this behavior. */
     }
     else {
 
@@ -77,7 +76,9 @@ void PIHandleStatusWrite(struct ROMController *controller) {
   if (resetController)
     controller->regs[PI_STATUS_REG] = 0;
 
-  if (clearInterrupt)
+  if (clearInterrupt) {
     BusClearRCPInterrupt(controller->bus, MI_INTR_PI);
+    controller->regs[PI_STATUS_REG] &= ~0x8;
+  }
 }
 
