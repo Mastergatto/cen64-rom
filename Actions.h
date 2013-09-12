@@ -22,6 +22,7 @@
 void DMAToDRAM(struct BusController *, uint32_t, const void *, size_t);
 
 void PIHandleDMARead(struct ROMController *);
+void PIHandleDMAWrite(struct ROMController *);
 void PIHandleStatusWrite(struct ROMController *);
 
 #endif

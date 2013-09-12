@@ -148,9 +148,11 @@ PIRegWrite(void *_pif, uint32_t address, void *_data) {
       break;
 
     case PI_RD_LEN_REG:
-    case PI_WR_LEN_REG:
       PIHandleDMARead(controller);
-      controller->regs[PI_STATUS_REG] |= 1;
+      break;
+
+    case PI_WR_LEN_REG:
+      PIHandleDMAWrite(controller);
       break;
 
     default:
