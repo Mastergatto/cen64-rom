@@ -76,13 +76,12 @@ void PIHandleDMAWrite(struct ROMController *controller) {
   else if (!(source & 0x06000000)) {
     debug("DMA | Request: Read from cart.");
 
-    if (source + length > controller->cart->size) {
-      debug("DMA | Copy would overflow cart bounds; ignoring.");
-      return;
-    }
+    if ((source + length > controller->cart->size)) {
+      uint8_t empty[(source + length) - controller->cart->size];
+      length = controller->cart->size - source;
 
-    /* TODO: Handle out-of-bounds cart reads properly. */
-    assert((source + length) <= controller->cart->size);
+      debug("DMA | Copy would overflow cart bounds; trimming.");
+    }
 
     debugarg("DMA | DEST   : [0x%.8x].", dest);
     debugarg("DMA | SOURCE : [0x%.8x].", source);

@@ -240,6 +240,7 @@ InitCart(struct Cart *cart, FILE *file, const uint8_t *rom, size_t size) {
   debug("Preparing the image.");
   memset(cart, 0, sizeof(*cart));
 
+  size &= ~0xF;
   cart->file = file;
   cart->rom = rom;
   cart->size = size;
