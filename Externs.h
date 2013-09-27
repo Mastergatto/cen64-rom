@@ -10,12 +10,16 @@
  * ========================================================================= */
 #ifndef __ROM__EXTERNS_H__
 #define __ROM__EXTERNS_H__
+#include "Common.h"
 
 struct BusController;
 
 void BusClearRCPInterrupt(struct BusController *, unsigned);
 void BusRaiseRCPInterrupt(struct BusController *, unsigned);
 void BusWriteWord(const struct BusController *, uint32_t, uint32_t);
+
+void DMAFromDRAM(struct BusController *, void *, uint32_t, uint32_t);
+void DMAToDRAM(struct BusController *, uint32_t, const void *, size_t);
 
 #endif
 

@@ -30,8 +30,10 @@ struct BusController;
 struct ROMController {
   struct BusController *bus;
   struct Cart *cart;
+  FILE *sramFile;
 
   uint32_t regs[NUM_PI_REGISTERS];
+  uint8_t sram[32768];
 };
 
 struct ROMController *CreateROM(void);

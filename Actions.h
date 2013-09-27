@@ -19,11 +19,13 @@
 #include <stddef.h>
 #endif
 
-void DMAToDRAM(struct BusController *, uint32_t, const void *, size_t);
-
 void PIHandleDMARead(struct ROMController *);
 void PIHandleDMAWrite(struct ROMController *);
 void PIHandleStatusWrite(struct ROMController *);
+
+int ReadSRAMFile(struct ROMController *);
+void SetSRAMFile(struct ROMController *, const char *);
+int WriteSRAMFile(struct ROMController *);
 
 #endif
 

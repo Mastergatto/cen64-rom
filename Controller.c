@@ -69,6 +69,11 @@ CreateROM(void) {
  * ========================================================================= */
 void
 DestroyROM(struct ROMController *controller) {
+  if (controller->sramFile) {
+    if (WriteSRAMFile(controller))
+      printf("Failed to write the SRAM file.\n");
+  }
+
   if (controller->cart)
     DestroyCart(controller->cart);
 
