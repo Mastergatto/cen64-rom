@@ -33,7 +33,7 @@
 void PIHandleDMARead(struct ROMController *controller) {
   uint32_t dest = controller->regs[PI_CART_ADDR_REG] & 0xFFFFFFF;
   uint32_t source = controller->regs[PI_DRAM_ADDR_REG] & 0x7FFFFF;
-  uint32_t length = (controller->regs[PI_WR_LEN_REG] & 0xFFFFFF) + 1;
+  uint32_t length = (controller->regs[PI_RD_LEN_REG] & 0xFFFFFF) + 1;
 
   if (length & 7)
     length = (length + 7) & ~7;
